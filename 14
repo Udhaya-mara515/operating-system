@@ -1,0 +1,66 @@
+#include <stdio.h>
+
+#define MAX_RESOURCES 3
+#define MAX_PROCESSES 5
+
+int available[MAX_RESOURCES];
+int max_need[MAX_PROCESSES][MAX_RESOURCES];
+int allocated[MAX_PROCESSES][MAX_RESOURCES];
+
+void initialize() {
+    printf("Enter available resources:\n");
+    for (int i = 0; i < MAX_RESOURCES; i++) {
+        scanf("%d", &available[i]);
+    }
+
+    printf("Enter maximum needs for each process:\n");
+    for (int i = 0; i < MAX_PROCESSES; i++) {
+        for (int j = 0; j < MAX_RESOURCES; j++) {
+            scanf("%d", &max_need[i][j]);
+        }
+    }
+}
+
+int requestResources(int process, int request[]) {
+    for (int i = 0; i < MAX_RESOURCES; i++) {
+        if (request[i] > max_need[process][i] - allocated[process][i] || request[i] > available[i]) {
+            return 0; // Request exceeds maximum or available resources
+        }
+    }
+
+    for (int i = 0; i < MAX_RESOURCES; i++) {
+        available[i] -= request[i];
+        allocated[process][i] += request[i];
+    }
+
+    return 1; // Resources allocated successfully
+}
+
+int main() {
+    int process;
+    int request[MAX_RESOURCES];
+
+    initialize();
+
+    while (1) {
+        printf("\nEnter process (1-%d, 0 to exit): ", MAX_PROCESSES);
+        scanf("%d", &process);
+
+        if (process == 0) {
+            break;
+        }
+
+        printf("Enter resource request for process %d:\n", process);
+        for (int i = 0; i < MAX_RESOURCES; i++) {
+            scanf("%d", &request[i]);
+        }
+
+        if (requestResources(process - 1, request)) {
+            printf("Resources allocated successfully.\n");
+        } else {
+            printf("Request denied. System in unsafe state.\n");
+        }
+    }
+
+    return 0;
+}
