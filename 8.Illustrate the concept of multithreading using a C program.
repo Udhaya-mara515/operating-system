@@ -1,0 +1,19 @@
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;unistd.h&gt;
+#include&lt;pthread.h&gt;
+void *myThreadFun(void *vargp)
+{
+sleep(1);
+printf(&quot;Printing GeeksQuiz from Thread \n&quot;);
+return NULL;
+}
+int main()
+{
+pthread_t thread_id;
+printf(&quot;Before Thread\n&quot;);
+pthread_create(&amp;thread_id, NULL, myThreadFun, NULL);
+pthread_join(thread_id, NULL);
+printf(&quot;After Thread\n&quot;);
+exit(0);
+}
