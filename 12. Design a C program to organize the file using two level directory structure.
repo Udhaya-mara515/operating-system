@@ -1,0 +1,58 @@
+#include <stdio.h>
+
+struct Directory {
+    char name[10];
+    struct Subdirectory {
+        char name[10];
+        int size;
+        char files[10][10];
+    } subdirs[10];
+    int size;
+};
+
+int main() {
+    struct Directory dir[10];
+    int i, j, k, n;
+
+    printf("Enter the number of directories: ");
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++) {
+        printf("Enter directory %d name: ", i + 1);
+        scanf("%s", dir[i].name);
+
+        printf("Enter size of directory: ");
+        scanf("%d", &dir[i].size);
+
+        for (j = 0; j < dir[i].size; j++) {
+            printf("Enter subdirectory name and size: ");
+            scanf("%s %d", dir[i].subdirs[j].name, &dir[i].subdirs[j].size);
+
+            for (k = 0; k < dir[i].subdirs[j].size; k++) {
+                printf("Enter file name: ");
+                scanf("%s", dir[i].subdirs[j].files[k]);
+            }
+        }
+    }
+
+    printf("\nDirname\tSize\tSubdirname\tSize\tFiles\n");
+    printf("******************************************************\n");
+
+    for (i = 0; i < n; i++) {
+        printf("%s\t%d", dir[i].name, dir[i].size);
+
+        for (j = 0; j < dir[i].size; j++) {
+            printf("\t%s\t%d\t", dir[i].subdirs[j].name, dir[i].subdirs[j].size);
+
+            for (k = 0; k < dir[i].subdirs[j].size; k++) {
+                printf("%s\t", dir[i].subdirs[j].files[k]);
+            }
+
+            printf("\n\t\t");
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}
